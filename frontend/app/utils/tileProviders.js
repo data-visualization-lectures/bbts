@@ -15,57 +15,6 @@ export const TILE_PROVIDERS = {
       layers: [{ id: 'osm', type: 'raster', source: 'osm' }],
     },
   },
-  carto_light: {
-    label: 'CartoDB Positron',
-    exportDatetimeTextColor: '#000000',
-    style: {
-      version: 8,
-      sources: {
-        carto: {
-          type: 'raster',
-          tiles: ['https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png'],
-          tileSize: 256,
-          attribution: '© OpenStreetMap © CartoDB',
-        },
-      },
-      layers: [{ id: 'carto', type: 'raster', source: 'carto' }],
-    },
-  },
-  carto_dark: {
-    label: 'CartoDB Dark',
-    exportDatetimeTextColor: '#ffffff',
-    style: {
-      version: 8,
-      sources: {
-        carto_dark: {
-          type: 'raster',
-          tiles: ['https://a.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png'],
-          tileSize: 256,
-          attribution: '© OpenStreetMap © CartoDB',
-        },
-      },
-      layers: [{ id: 'carto_dark', type: 'raster', source: 'carto_dark' }],
-    },
-  },
-  esri_satellite: {
-    label: 'ESRI Satellite',
-    labelKey: 'tile.esriSatellite',
-    exportDatetimeTextColor: '#ffffff',
-    style: {
-      version: 8,
-      sources: {
-        esri: {
-          type: 'raster',
-          tiles: [
-            'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-          ],
-          tileSize: 256,
-          attribution: '© Esri',
-        },
-      },
-      layers: [{ id: 'esri', type: 'raster', source: 'esri' }],
-    },
-  },
   gsi_std: {
     label: 'GSI Tiles',
     labelKey: 'tile.gsiStd',
