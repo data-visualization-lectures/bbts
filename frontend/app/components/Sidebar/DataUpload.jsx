@@ -4,11 +4,6 @@ import useStore from '@/app/store/useStore'
 import { parseCsv } from '@/app/utils/csvParser'
 import { useI18n } from '@/app/i18n'
 
-const SAMPLE_FILES = [
-  { id: 'g7_going', name: 'G7_Hiroshima_Zelensky_行き', labelKey: 'sample.g7_going' },
-  { id: 'g7_return', name: 'G7_Hiroshima_Zelensky_帰り', labelKey: 'sample.g7_return' },
-]
-
 const ERROR_KEYS = {
   'データが空です': 'upload.emptyData',
 }
@@ -18,7 +13,6 @@ export default function DataUpload() {
   const [dragging, setDragging] = useState(false)
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
-  const [selectedSample, setSelectedSample] = useState('')
   const { t } = useI18n()
 
   const translateError = (msg) => {
@@ -67,33 +61,6 @@ export default function DataUpload() {
     e.target.value = ''
   }
 
-  const loadSampleFile = async (sampleFile) => {
-    try {
-      setError(null)
-      setLoading(true)
-      const response = await fetch(`/samples/${sampleFile.name}.csv`)
-      if (!response.ok) throw new Error(t('upload.fetchFailed'))
-      const text = await response.text()
-      const tracks = parseCsv(text, `${sampleFile.name}.csv`)
-      tracks.forEach((tr) => addTrack(tr))
-      setSelectedSample('')
-    } catch (e) {
-      setError(e.message)
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  const onSampleChange = (e) => {
-    const selectedId = e.target.value
-    if (!selectedId) return
-
-    const sampleFile = SAMPLE_FILES.find(f => f.id === selectedId)
-    if (sampleFile) {
-      loadSampleFile(sampleFile)
-    }
-  }
-
   return (
     <div className="space-y-2">
       <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">{t('upload.heading')}</h3>
@@ -127,23 +94,7 @@ export default function DataUpload() {
         />
       </div>
 
-      {/* サンプルデータドロップダウン */}
-      <div>
-        <label className="text-xs text-gray-500 block mb-1">{t('upload.sampleData')}</label>
-        <select
-          value={selectedSample}
-          onChange={onSampleChange}
-          disabled={loading}
-          className="w-full bg-gray-800 border border-gray-600 rounded px-2 py-1 text-xs text-gray-300 disabled:opacity-50 disabled:cursor-not-allowed hover:border-gray-500"
-        >
-          <option value="">{t('upload.sampleSelect')}</option>
-          {SAMPLE_FILES.map((file) => (
-            <option key={file.id} value={file.id}>
-              {t(file.labelKey)}
-            </option>
-          ))}
-        </select>
-      </div>
+      {/* サンプルデータはツールヘッダーに移行済み */}
       {error && (
         <p className="text-xs text-red-400 bg-red-900/20 rounded px-2 py-1">{translateError(error)}</p>
       )}

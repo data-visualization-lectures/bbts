@@ -1,4 +1,5 @@
 'use client'
+import { useEffect } from 'react'
 import dynamic from 'next/dynamic'
 import DataUpload from '@/app/components/Sidebar/DataUpload'
 import TrackList from '@/app/components/Sidebar/TrackList'
@@ -6,6 +7,8 @@ import MapSettings from '@/app/components/Sidebar/MapSettings'
 import ExportPanel from '@/app/components/Export/ExportPanel'
 import TimelineControls from '@/app/components/Timeline/TimelineControls'
 import Accordion from '@/app/components/Sidebar/Accordion'
+import useStore from '@/app/store/useStore'
+import { parseCsv } from '@/app/utils/csvParser'
 import { I18nProvider, useI18n } from '@/app/i18n'
 
 // MapLibre GL JS は SSR 非対応のため dynamic import
@@ -32,9 +35,40 @@ function LangToggle() {
 
 function PageContent() {
   const { t } = useI18n()
+  const addTrack = useStore((s) => s.addTrack)
+
+  useEffect(() => {
+    customElements.whenDefined('dataviz-tool-header').then(() => {
+      const header = document.querySelector('dataviz-tool-header')
+      if (!header) return
+
+      header.setConfig({
+        logo: {
+          type: 'text',
+          text: '✈ Broadcast Tracking System',
+          textClass: 'font-bold text-lg text-white'
+        }
+      })
+
+      header.setSampleConfig({
+        toolId: 'broadcast-based-tracking-systems',
+        onSampleSelect: async (detail) => {
+          try {
+            const res = await fetch(detail.url)
+            if (!res.ok) throw new Error('Failed to fetch sample')
+            const text = await res.text()
+            const tracks = parseCsv(text, detail.name || 'sample.csv')
+            tracks.forEach((tr) => addTrack(tr))
+          } catch (err) {
+            console.error('Sample data load failed:', err)
+          }
+        }
+      })
+    })
+  }, [addTrack])
 
   return (
-    <div className="flex overflow-hidden" style={{ height: 'calc(100vh - 48px)', marginTop: '48px' }}>
+    <div className="flex overflow-hidden" style={{ height: 'calc(100vh - 104px)', marginTop: '104px' }}>
       {/* サイドバー */}
       <aside className="w-72 shrink-0 bg-gray-900 border-r border-gray-700 flex flex-col overflow-hidden">
         <div className="px-4 py-3 border-b border-gray-700">
@@ -72,6 +106,7 @@ function PageContent() {
 export default function Page() {
   return (
     <I18nProvider>
+      <dataviz-tool-header></dataviz-tool-header>
       <PageContent />
     </I18nProvider>
   )
