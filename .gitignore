@@ -13,3 +13,10 @@ backend/*.pyc
 # OS
 .DS_Store
 Thumbs.db
+_documents/api_projects/API_SPECIFICATION.md
+_documents/api_projects/CLIENT_INTEGRATION_GUIDE.md
+_documents/api_projects/SUPABASE PUBLIC_TABLES.md
+_documents/api_projects/TOOL_INTEGRATION_GUIDE.md
+_documents/QUICKSTART.md
+_documents/TOOL_SIDE_FILE_SPECIFICATIONS.md
+_documents/システム構成図.png
