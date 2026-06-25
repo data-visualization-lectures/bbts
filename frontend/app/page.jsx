@@ -57,7 +57,7 @@ function PageContent() {
       })
 
       header.setSampleConfig({
-        toolId: 'broadcast-based-tracking-systems',
+        toolId: 'bbts',
         onSampleSelect: async (detail) => {
           try {
             showProcessingToast(t('processing.sample'))
