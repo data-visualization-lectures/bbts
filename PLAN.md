@@ -232,7 +232,7 @@ Response: { "status": "ok" }
 ## ディレクトリ構成
 
 ```
-broadcast-based-tracking-systems/
+bbts/
 ├── frontend/                          # Next.js → Vercel
 │   ├── src/
 │   │   ├── app/
