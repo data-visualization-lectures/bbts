@@ -1,5 +1,10 @@
 # Broadcast-Based Tracking System — 実装計画
 
+> 履歴メモ: このファイルは実装計画であり、現在の本番挙動と完全には一致しない可能性があります。
+> 本ツール固有の最新運用メモは `README.md` を参照し、dataviz.jp 共通仕様は
+> `/Users/yuichiyazaki/Documents/GitHubRepository/Prj_DatavizJP/_app_core/_documents`
+> を正としてください。
+
 ## 概要
 
 ADS-B（航空機）・AIS（船舶）の移動データを地図上で時系列アニメーション表示し、
