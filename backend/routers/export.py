@@ -99,6 +99,7 @@ async def export_mp4(req: VideoRequest):
     cmd = [
         "ffmpeg", "-y",
         "-f", "image2pipe", "-vcodec", "png", "-r", str(fps), "-i", "pipe:0",
+        "-vf", "pad=ceil(iw/2)*2:ceil(ih/2)*2",
         "-vcodec", "libx264", "-pix_fmt", "yuv420p",
         "-movflags", "frag_keyframe+empty_moov",
         "-f", "mp4", "pipe:1",
