@@ -4,6 +4,9 @@ export default {
   'page.mapLoading': '地図を読み込み中...',
   'page.mapSettings': '地図設定',
   'page.export': 'エクスポート',
+  'processing.sample': 'サンプルデータを読み込み中です',
+  'processing.file': 'ファイルを読み込み中です',
+  'processing.export': '書き出し中です',
 
   // DataUpload
   'upload.heading': 'データ読み込み',

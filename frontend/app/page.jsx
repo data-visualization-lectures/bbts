@@ -1,5 +1,5 @@
 'use client'
-import { useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 import dynamic from 'next/dynamic'
 import DataUpload from '@/app/components/Sidebar/DataUpload'
 import TrackList from '@/app/components/Sidebar/TrackList'
@@ -36,6 +36,12 @@ function LangToggle() {
 function PageContent() {
   const { t } = useI18n()
   const addTrack = useStore((s) => s.addTrack)
+  const showProcessingToast = useCallback((message) => {
+    const header = document.querySelector('dataviz-tool-header')
+    if (header && typeof header.showMessage === 'function') {
+      header.showMessage(message, 'info', 5000)
+    }
+  }, [])
 
   useEffect(() => {
     customElements.whenDefined('dataviz-tool-header').then(() => {
@@ -54,6 +60,7 @@ function PageContent() {
         toolId: 'broadcast-based-tracking-systems',
         onSampleSelect: async (detail) => {
           try {
+            showProcessingToast(t('processing.sample'))
             const res = await fetch(detail.url)
             if (!res.ok) throw new Error('Failed to fetch sample')
             const text = await res.text()
@@ -65,7 +72,7 @@ function PageContent() {
         }
       })
     })
-  }, [addTrack])
+  }, [addTrack, showProcessingToast, t])
 
   return (
     <div className="flex overflow-hidden" style={{ height: 'calc(100vh - 104px)', marginTop: '104px' }}>

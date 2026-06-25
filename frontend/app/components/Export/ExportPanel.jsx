@@ -16,6 +16,13 @@ const MAX_EXPORT_FRAMES = 600
 const rawBackendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000'
 const BACKEND_URL = /^https?:\/\//.test(rawBackendUrl) ? rawBackendUrl : `https://${rawBackendUrl}`
 
+function showProcessingToast(message) {
+  const header = document.querySelector('dataviz-tool-header')
+  if (header && typeof header.showMessage === 'function') {
+    header.showMessage(message, 'info', 5000)
+  }
+}
+
 export default function ExportPanel() {
   const exportMethod = useStore((s) => s.exportMethod)
   const exportFps = useStore((s) => s.exportFps)
@@ -54,6 +61,7 @@ export default function ExportPanel() {
   const handleExport = useCallback(async () => {
     if (!hasData) return
     setError(null)
+    showProcessingToast(t('processing.export'))
     setProgress(0)
     setPhase('preparing')
     cancelRef.current = false

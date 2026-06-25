@@ -4,6 +4,9 @@ export default {
   'page.mapLoading': 'Loading map...',
   'page.mapSettings': 'Map Settings',
   'page.export': 'Export',
+  'processing.sample': 'Loading sample data...',
+  'processing.file': 'Reading file...',
+  'processing.export': 'Exporting...',
 
   // DataUpload
   'upload.heading': 'Load Data',

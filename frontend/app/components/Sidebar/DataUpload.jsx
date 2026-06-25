@@ -8,6 +8,13 @@ const ERROR_KEYS = {
   'データが空です': 'upload.emptyData',
 }
 
+function showProcessingToast(message) {
+  const header = document.querySelector('dataviz-tool-header')
+  if (header && typeof header.showMessage === 'function') {
+    header.showMessage(message, 'info', 5000)
+  }
+}
+
 export default function DataUpload() {
   const addTrack = useStore((s) => s.addTrack)
   const [dragging, setDragging] = useState(false)
@@ -22,8 +29,10 @@ export default function DataUpload() {
 
   const processFiles = useCallback(
     async (files) => {
+      if (!files.length) return
       setError(null)
       setLoading(true)
+      showProcessingToast(t('processing.file'))
       try {
         for (const file of files) {
           const text = await file.text()
@@ -36,7 +45,7 @@ export default function DataUpload() {
         setLoading(false)
       }
     },
-    [addTrack]
+    [addTrack, t]
   )
 
   const onDrop = useCallback(
